@@ -24,7 +24,7 @@ namespace read_cloud.Controllers
                 return response.Result switch
                 {
                     EAuthResponse.UserNotFound => NotFound(),
-                    EAuthResponse.InvalidPassword => ControllerResponses.UnauthorizedException(response.Message),
+                    EAuthResponse.InvalidPassword => ControllerResponses.Unauthorized(response.Message),
                     _ => Ok(new AuthResponse(response.Message, response.Token)),
                 };
             }

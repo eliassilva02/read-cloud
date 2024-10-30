@@ -1,4 +1,4 @@
-namespace read_cloud.Extensions;
+﻿namespace Application;
 
 public static class DateTimeExtension
 {

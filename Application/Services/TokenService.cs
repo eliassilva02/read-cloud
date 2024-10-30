@@ -17,11 +17,11 @@ public class TokenService
         {
             Subject = new ClaimsIdentity(
                 [
-                    new(ClaimTypes.Name, user.UserName),
-                    new(ClaimTypes.Role, user.LevelUser.ToString())
+                    new(ClaimTypes.Name, user.UserName)
                 ]
             ),
-            Expires = DateTime.UtcNow.AddHours(1),
+            Expires = DateTime.UtcNow.OnBrazil().AddMinutes(10),
+            NotBefore = DateTime.UtcNow.OnBrazil(),
             SigningCredentials = new(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
         };
 

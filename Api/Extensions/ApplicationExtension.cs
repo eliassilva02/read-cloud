@@ -2,7 +2,6 @@
 using Application.Repositories.Interfaces;
 using Application.Services;
 using Application.Services.Interfaces;
-using Hellang.Middleware.ProblemDetails;
 using Infra;
 using Infra.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -19,10 +18,6 @@ public static class ApplicationExtension
         service.AddCors();
         service.AddControllers();
         service.AddHealthChecks();
-        ProblemDetailsExtensions.AddProblemDetails(service, o => o.OnBeforeWriteDetails = (ctx, problem) =>
-        {
-            problem.Extensions["traceId"] = Activity.Current?.Id ?? ctx.TraceIdentifier;
-        });
 
         return service;
     }
@@ -44,16 +39,20 @@ public static class ApplicationExtension
             })
             .AddJwtBearer(x =>
             {
-                x.RequireHttpsMetadata = true;
+                x.RequireHttpsMetadata = false;
                 x.SaveToken = true;
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(byteKey),
-                    ValidateIssuer = true,
-                    ValidateAudience = true
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
                 };
             });
+
+        service.AddAuthorization();
 
         return service;
     }
@@ -65,6 +64,17 @@ public static class ApplicationExtension
         service.AddTransient<IRepositoryBase, RepositoryBase>();
         service.AddTransient<IUserRepository, UserRepository>();
         service.AddTransient<IAuthService, AuthService>();
+        service.AddTransient<UserService>();
+
+        return service;
+    }
+
+    public static IServiceCollection BuildLogger(this IServiceCollection service)
+    {
+        service.AddLogging(x =>
+        {
+            x.AddConsole();
+        });
 
         return service;
     }
@@ -80,8 +90,6 @@ public static class ApplicationExtension
             .AllowAnyMethod()
             .AllowAnyHeader()
         );
-
-        app.UseProblemDetails();
         
         app.UseAuthentication();
         app.UseAuthorization();

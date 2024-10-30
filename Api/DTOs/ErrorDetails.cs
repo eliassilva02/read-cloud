@@ -2,11 +2,11 @@ using System.Text.Json.Serialization;
 
 namespace read_cloud.DTOs;
 
-public class ErrorDetails
+public class ErrorsDetails(List<string> details, List<string>? user)
 {
-    [JsonPropertyName("field")]
-    public string Field { get; set; }
+    [JsonPropertyName("$")]
+    public List<string> Details { get; set; } = details;
 
-    [JsonPropertyName("error")]
-    public string Error { get; set; }
+    [JsonPropertyName("user")]
+    public List<string>? User { get; set; } = user;
 }

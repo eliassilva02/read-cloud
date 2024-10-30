@@ -1,18 +1,34 @@
-using System.Text.Json;
 using System.Text.Json.Serialization;
-using read_cloud.Extensions;
 
 namespace read_cloud.DTOs;
 
-public class ErrorResponse(string message, List<ErrorDetails>? details)
+public class ErrorResponse
 {
+    public ErrorResponse()
+    {
+    }
 
-    [JsonPropertyName("date")]
-    public DateTime DateError = DateTime.UtcNow.OnBrazil();
+    public ErrorResponse(string title, int status, ErrorsDetails errors, string traceId)
+    {
+        Type = "https://datatracker.ietf.org/doc/html/rfc9110#section-15";
+        Title = title;
+        Status = status;
+        Errors = errors;
+        TraceId = traceId;
+    }
 
-    [JsonPropertyName("message")]
-    public string Message { get; private set; } = message;
+    [JsonPropertyName("type")]
+    public string Type { get; set; }
 
-    [JsonPropertyName("message")]
-    public List<ErrorDetails>? Details { get; private set; } = details;
+    [JsonPropertyName("title")]
+    public string Title { get; set; }
+
+    [JsonPropertyName("status")]
+    public int Status { get; set; }
+
+    [JsonPropertyName("errors")]
+    public ErrorsDetails Errors { get; set; }
+
+    [JsonPropertyName("traceId")]
+    public string TraceId { get; set; }
 }

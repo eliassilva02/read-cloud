@@ -4,5 +4,5 @@ namespace Application.Services.Interfaces;
 
 public interface IAuthService
 {
-    Task<AuthUserResponseDTO> LoginAsync(string userName, string password);
+    Task<AuthUserDTO> LoginAsync(string userName, string password);
 }

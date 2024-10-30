@@ -9,7 +9,7 @@ public class AuthService(IUserRepository repo) : IAuthService
 {
     private readonly IUserRepository _repo = repo;
 
-    public async Task<AuthUserResponseDTO> LoginAsync(string userName, string password)
+    public async Task<AuthUserDTO> LoginAsync(string userName, string password)
     {
         var user = await _repo.GetUserAsync(userName, password);
 
@@ -18,8 +18,8 @@ public class AuthService(IUserRepository repo) : IAuthService
 
         var sucessPassword = HasherService.VerifyPasswordHash(password, user.HashPassword);
 
-        if (!sucessPassword)
-            return new("", "Senha inválida", EAuthResponse.InvalidPassword);
+        //if (!sucessPassword)
+        //    return new("", "Senha inválida", EAuthResponse.InvalidPassword);
 
         var token = TokenService.GenerateToken(user);
         return new(token, "Sucesso");
