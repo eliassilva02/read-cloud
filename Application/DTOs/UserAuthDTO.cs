@@ -1,6 +1,8 @@
-﻿namespace Domain;
+﻿using Domain.Enums;
 
-public class UserAuth
+namespace Application.DTOs;
+
+public class UserAuthDTO
 {
     public string UserName { get; set; }
     public string HashPassword { get; set; }

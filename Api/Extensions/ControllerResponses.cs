@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using read_cloud.DTOs;
 using System.Diagnostics;
 
@@ -7,7 +6,7 @@ namespace read_cloud.Extensions;
 
 public static class ControllerResponses
 {
-    public static UnauthorizedObjectResult BadRequest(List<string> _params)
+    public static BadRequestObjectResult BadRequest(List<string> _params)
     {
         var problem = new ErrorResponse
         {
@@ -16,10 +15,9 @@ public static class ControllerResponses
             Status = 400,
             Errors = new ErrorsDetails(_params, null),
             TraceId = Activity.Current?.Id
-
         };
 
-        return new UnauthorizedObjectResult(problem);
+        return new(problem);
     }
 
     public static UnauthorizedObjectResult Unauthorized(string message)
@@ -32,6 +30,6 @@ public static class ControllerResponses
             Errors = new ErrorsDetails([message], null)
         };
 
-        return new UnauthorizedObjectResult(problem);
+        return new(problem);
     }
 }

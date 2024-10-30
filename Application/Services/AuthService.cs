@@ -9,7 +9,7 @@ public class AuthService(IUserRepository repo) : IAuthService
 {
     private readonly IUserRepository _repo = repo;
 
-    public async Task<AuthUserDTO> LoginAsync(string userName, string password)
+    public async Task<AuthUserResponseDTO> LoginAsync(string userName, string password)
     {
         var user = await _repo.GetUserAsync(userName, password);
 

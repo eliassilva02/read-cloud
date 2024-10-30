@@ -1,4 +1,4 @@
-﻿using Domain;
+﻿using Application.DTOs;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -8,7 +8,7 @@ namespace Application.Services;
 
 public class TokenService
 {
-    public static string GenerateToken(UserAuth user)
+    public static string GenerateToken(UserAuthDTO user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes("");
