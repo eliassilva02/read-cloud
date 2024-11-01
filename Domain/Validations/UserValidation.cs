@@ -1,6 +1,5 @@
 ﻿using Domain.Entities;
 using Domain.Validations.Interfaces;
-using Flunt.Notifications;
 using Flunt.Validations;
 
 namespace Domain.Validations;
@@ -13,7 +12,6 @@ public class UserValidation(User user) : Contract<User>, IValidation
     {
         IsNullOrEmpty();
 
-        // Nao sentido continuar as validações se algum desses for vazio
         if (Notifications.Count > 0)
             return;
 
@@ -23,19 +21,16 @@ public class UserValidation(User user) : Contract<User>, IValidation
     public void IsNullOrEmpty()
     {
         Requires()
-            .IsNullOrEmpty(_user.Name, "Name")
-            .IsNullOrEmpty(_user.UserName, "UserName")
-            .IsNullOrEmpty(_user.Email, "Email")
-            .IsNullOrEmpty(_user.Phone, "Phone")
-            .IsNullOrEmpty(_user.Cpf, "Cpf")
-            .IsNullOrEmpty(_user.Password, "Password")
-            .IsNullOrEmpty(_user.DateOfBirth, "DateOfBirth");
+            .IsNotNullOrEmpty(_user.Name, "Name")
+            .IsNotNullOrEmpty(_user.UserName, "UserName")
+            .IsNotNullOrEmpty(_user.Email, "Email")
+            .IsNotNullOrEmpty(_user.Cpf, "Cpf")
+            .IsNotNullOrEmpty(_user.Password, "Password");
     }
 
     public void ValidateFormat()
     {
         Requires()
-            .IsEmail(_user.Email, "Email")
-            .
+            .IsEmail(_user.Email, "Email");
     }
 }

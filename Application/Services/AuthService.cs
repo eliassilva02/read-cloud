@@ -11,15 +11,15 @@ public class AuthService(IUserRepository repo) : IAuthService
 
     public async Task<AuthUserResponseDTO> LoginAsync(string userName, string password)
     {
-        var user = await _repo.GetUserAsync(userName, password);
+        var user = await _repo.GetUserAsync(userName);
 
         if (user == null)
             return new("", "Usuário não encontrado", EAuthResponse.UserNotFound);
 
         var sucessPassword = HasherService.VerifyPasswordHash(password, user.HashPassword);
 
-        //if (!sucessPassword)
-        //    return new("", "Senha inválida", EAuthResponse.InvalidPassword);
+        if (!sucessPassword)
+            return new("", "Senha inválida", EAuthResponse.InvalidPassword);
 
         var token = TokenService.GenerateToken(user);
         return new(token, "Sucesso");

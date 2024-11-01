@@ -3,5 +3,6 @@
 public enum ELevelUser
 {
     Librarian,
+    Writer,
     Reader
 }

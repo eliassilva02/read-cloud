@@ -19,7 +19,7 @@ namespace read_cloud.Controllers
         [HttpPost]
         [Authorize]
         public async Task<ActionResult> CreateUserAsync(
-            [FromBody] UserRequest user,
+            [FromBody] UserRequestDTO user,
             [FromServices] UserService userService)
         {
             var _event = new EventId((int)ELogEvents.CreateUser, ELogEvents.CreateUser.ToString());
@@ -28,10 +28,10 @@ namespace read_cloud.Controllers
                 _logger.LogInformation(_event, "Criando usuário {User}", user);
                 _unitOfWork.BeginTransaction();
 
-                var result = await userService.CreateUserAsync();
+                var notifications = await userService.CreateUserAsync(new(user.Name, user.Email, user.Password, user.UserName, user.Phone, user.Cpf, new(user.Address.Cep, user.Address.Street, user.Address.Number, user.Address.City, user.Address.State, user.Address.Country, user.Address.Complement, user.Address.ReferencePoint), user.DateBirth, user.LevelUser));
 
-                if (!result)
-                    return ControllerResponses.BadRequest(["Name is empty"]);
+                if (notifications.Count > 0)
+                    return ControllerResponses.BadRequest(notifications);
 
                 return Ok();
             }

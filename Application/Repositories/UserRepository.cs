@@ -2,6 +2,7 @@
 using Application.Repositories.Interfaces;
 using Infra.Interfaces;
 using Domain.Entities;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Application.Repositories;
 
@@ -11,16 +12,18 @@ public class UserRepository(IRepositoryBase dataAcess) : IUserRepository
 
     public Task<int> CreateUserAsync(User user)
     {
-        var sql = $@"
-            INSERT INTO 
-        ";
+        //var sql = $@"
+        //    INSERT INTO 
+        //";
 
-        var parameters = new
-        {
-            _userName = userName
-        };
+        //var parameters = new
+        //{
+        //    _userName = user.UserName
+        //};
 
-        return _dataAcess.ExecuteAsync(sql, parameters);
+        //return _dataAcess.ExecuteAsync(sql, parameters);
+
+        return Task.FromResult(1);
     }
 
     public Task<int> DeleteUserAsync(string userName)

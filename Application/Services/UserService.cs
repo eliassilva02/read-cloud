@@ -1,10 +1,26 @@
-﻿namespace Application.Services;
+﻿using Application.DTOs;
+using Application.Repositories.Interfaces;
+using Domain.Entities;
+using Flunt.Notifications;
 
-public class UserService
+namespace Application.Services;
+
+public class UserService(IUserRepository repo)
 {
+    private readonly IUserRepository _repo = repo;
 
-    public async Task<bool> CreateUserAsync()
+    public async Task<List<Notification>> CreateUserAsync(UserDTO user)
     {
-        return !true;
+        var address = user.Address;
+
+        User userEntity = new(user.Name, user.UserName, user.Email, user.Phone, new(address.Cep, address.Street, address.Number, address.City, address.ReferencePoint, address.Complement, address.Country), user.Cpf, user.Password, user.DateBirth, user.LevelUser);
+        userEntity.Validation();
+
+        if (!userEntity.IsValid)
+            return [.. userEntity.Notifications];
+
+        await _repo.CreateUserAsync(userEntity);
+
+        return [];
     }
 }

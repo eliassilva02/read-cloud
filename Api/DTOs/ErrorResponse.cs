@@ -8,13 +8,12 @@ public class ErrorResponse
     {
     }
 
-    public ErrorResponse(string title, int status, ErrorsDetails errors, string traceId)
+    public ErrorResponse(string title, int status, ErrorsDetails errors)
     {
         Type = "https://datatracker.ietf.org/doc/html/rfc9110#section-15";
         Title = title;
         Status = status;
         Errors = errors;
-        TraceId = traceId;
     }
 
     [JsonPropertyName("type")]
@@ -28,7 +27,4 @@ public class ErrorResponse
 
     [JsonPropertyName("errors")]
     public ErrorsDetails Errors { get; set; }
-
-    [JsonPropertyName("traceId")]
-    public string TraceId { get; set; }
 }
