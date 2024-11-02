@@ -20,7 +20,7 @@ public class UserRequestDTO
     public string Cpf { get; set; }
 
     [JsonPropertyName("dateBirth")]
-    public DateTime DateBirth { get; set; }
+    public DateTime? DateBirth { get; set; }
 
     [JsonPropertyName("phone")]
     public string Phone { get; set; }

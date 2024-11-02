@@ -7,7 +7,7 @@ namespace Domain.Entities;
 
 public class User : Notifiable<Notification>
 {
-    public User(string name, string userName, string email, string telefone, Address address, string cpf, string password, DateTime dateOfBirth, ELevelUser levelUser)
+    public User(string name, string userName, string email, string telefone, Address address, string cpf, string password, DateTime? dateOfBirth, ELevelUser levelUser)
     {
         Name = name;
         UserName = userName;
@@ -28,7 +28,7 @@ public class User : Notifiable<Notification>
     public Address Address { get; private set; }
     public string Cpf { get; private set; }
     public string Password { get; private set; }
-    public DateTime DateOfBirth { get; private set; }
+    public DateTime? DateOfBirth { get; private set; }
     public ELevelUser LevelUser { get; private set; }
 
 
@@ -38,5 +38,13 @@ public class User : Notifiable<Notification>
         validator.Validation();
 
         AddNotifications(validator.Notifications);
+    }
+
+    public void SetPassword(string newPass)
+    {
+        if (string.IsNullOrEmpty(newPass))
+            return;
+
+        Password = newPass;
     }
 }

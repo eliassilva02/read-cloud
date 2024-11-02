@@ -13,11 +13,12 @@ public class Address
         Country = country;
     }
 
-    public string Cep { get; set; }
-    public string Street { get; set; }
-    public int Number { get; set; }
-    public string City { get; set; }
-    public string? ReferencePoint { get; set; }
-    public string? Complement { get; set; }
-    public string Country { get; set; }
+    public Guid Id { get; private set; } = Guid.NewGuid();
+    public string Cep { get; private set; }
+    public string Street { get; private set; }
+    public int Number { get; private set; }
+    public string City { get; private set; }
+    public string? ReferencePoint { get; private set; }
+    public string? Complement { get; private set; }
+    public string Country { get; private set; }
 }

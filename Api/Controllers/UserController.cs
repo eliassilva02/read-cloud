@@ -17,7 +17,6 @@ namespace read_cloud.Controllers
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
         [HttpPost]
-        [Authorize]
         public async Task<ActionResult> CreateUserAsync(
             [FromBody] UserRequestDTO user,
             [FromServices] UserService userService)
@@ -33,6 +32,7 @@ namespace read_cloud.Controllers
                 if (notifications.Count > 0)
                     return ControllerResponses.BadRequest(notifications);
 
+                _unitOfWork.Commit();
                 return Ok();
             }
             catch (Exception ex)

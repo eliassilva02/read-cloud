@@ -19,6 +19,9 @@ public class UserService(IUserRepository repo)
         if (!userEntity.IsValid)
             return [.. userEntity.Notifications];
 
+        var hashPassword = HasherService.ComputeHash(userEntity.Password);
+        userEntity.SetPassword(hashPassword);
+
         await _repo.CreateUserAsync(userEntity);
 
         return [];
